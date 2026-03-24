@@ -27,13 +27,13 @@ if (file_exists($fileCounter)) {
     $amount = ($rawAmount-$corrNumber) * $corrFactor;
 
     // Generate amount status message
-    if ($amount < 30)  # 0 - 29
+    if ($amount < 10)  # 0 - 9
         $messageAmount = "rustig";
-    elseif ($amount < 60) # 30 - 59
+    elseif ($amount < 25) # 10 - 24
         $messageAmount="gezellig";
-    elseif ($amount < 150) # 60 - 149
+    elseif ($amount < 50) # 25 - 49
         $messageAmount="erg gezellig";
-    else # 150+
+    else # 50+
         $messageAmount="lekker druk";
 
 }
