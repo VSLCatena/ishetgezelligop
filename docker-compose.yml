@@ -1,0 +1,35 @@
+networks:
+  REVERSE_PROXY:
+    external: true
+
+volumes:
+  data:
+    driver: local
+
+services:
+  ishetgezelligop.php:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT}.tls=true"
+      - "traefik.http.routers.${PROJECT}.rule=Host(`${PROJECT_FQDN}`)"
+      - "traefik.http.routers.${PROJECT}.entrypoints=${PROJECT_ENTRYPOINT}"
+    container_name: ${PROJECT}.php
+    hostname: php
+    image: 'ghcr.io/vslcatena/ishetgezelligop:latest'
+    pull_policy: if_not_present
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+      args:
+        - 'DEPLOY_ENV="production"'
+    environment:
+      TZ: 'Europe/Amsterdam'
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '${PROJECT_IP:-0.0.0.0}:${PROJECT_PORT:-8128}:80'
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+      - data:/var/www/html/data
+    networks:
+      - REVERSE_PROXY
