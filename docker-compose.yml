@@ -15,7 +15,7 @@ services:
       - "traefik.http.routers.${PROJECT}.entrypoints=${PROJECT_ENTRYPOINT}"
     container_name: ${PROJECT}.php
     hostname: php
-    image: 'ghcr.io/vslcatena/ishetgezelligop:latest'
+    image: "ghcr.io/vslcatena/ishetgezelligop:${VERSION:-latest}"
     pull_policy: if_not_present
     build:
       context: ./src
