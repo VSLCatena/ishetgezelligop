@@ -1,23 +1,18 @@
 networks:
-  net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: '${SUBNET:-192.168.32.0/29}'
-    driver_opts:
-      com.docker.network.bridge.name: ${PROJECT}_net
+  REVERSE_PROXY:
+    external: true
 
 volumes:
   data:
     driver: local
 
 services:
-  ledenteller.php:
+  ishetgezelligop.php:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${PROJECT}.tls=true"
       - "traefik.http.routers.${PROJECT}.rule=Host(`${PROJECT_FQDN}`)"
-      - "traefik.http.routers.${PROJECT}.entrypoints=${PROJECT_ENTRYPOINT}"   
+      - "traefik.http.routers.${PROJECT}.entrypoints=${PROJECT_ENTRYPOINT}"
     container_name: ${PROJECT}.php
     hostname: php
     image: 'ghcr.io/vslcatena/ishetgezelligop:latest'
@@ -25,6 +20,8 @@ services:
     build:
       context: ./src
       dockerfile: Dockerfile
+      args:
+        - 'DEPLOY_ENV="production"'
     environment:
       TZ: 'Europe/Amsterdam'
     restart: unless-stopped
@@ -35,4 +32,4 @@ services:
       - '/etc/localtime:/etc/localtime:ro'
       - data:/var/www/html/data
     networks:
-      - net
+      - REVERSE_PROXY
