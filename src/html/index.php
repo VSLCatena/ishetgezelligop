@@ -2,8 +2,8 @@
 #include './config.php';
 
 // Declared the files here for easy adjustments later
-$fileKader = 'message_kader.txt';
-$fileCounter = 'aantal.log';
+$fileKader = 'kader/message_kader.txt';
+$fileCounter = 'data/aantal.log';
 
 // Declare them all so we don't get undefined variable warnings.
 $messageKader = '';
