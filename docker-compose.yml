@@ -30,8 +30,8 @@ services:
       TZ: 'Europe/Amsterdam'
     restart: unless-stopped
     tty: true
-    ports:
-      - '${PROJECT_IP:-0.0.0.0}:${PROJECT_PORT:-8128}:80'
+#   ports:
+#      - '${PROJECT_IP:-0.0.0.0}:${PROJECT_PORT:-8128}:80'
     volumes:
       - '/etc/localtime:/etc/localtime:ro'
       - data:/var/www/html/data
